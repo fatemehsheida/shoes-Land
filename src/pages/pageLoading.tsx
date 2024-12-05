@@ -12,8 +12,8 @@ const LoadingPage: React.FC<LoadingProps> = ({ setPage }) => {
   }, 6000);
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className="flex flex-row justify-center items-center mt-72">
+    <div className="h-screen flex flex-col justify-center items-center">
+      <div className="flex flex-row justify-center items-center gap-2 ">
         <SiteLogo />
         <SiteTitle />
       </div>
