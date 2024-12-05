@@ -1,9 +1,9 @@
-import Onboarding from "../src/pages/Onboarding";
+import Shoea from "./pages/shoea";
 
 function App() {
   return (
     <>
-      <Onboarding />
+      <Shoea />
     </>
   );
 }

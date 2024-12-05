@@ -9,7 +9,7 @@ interface LoadingProps {
 const LoadingPage: React.FC<LoadingProps> = ({ setPage }) => {
   setTimeout(() => {
     setPage(1);
-  }, 3000);
+  }, 6000);
 
   return (
     <div className="flex flex-col justify-center items-center">

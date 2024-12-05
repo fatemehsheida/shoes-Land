@@ -6,7 +6,7 @@ interface WelcomePageProps {
 const WelcomePage: React.FC<WelcomePageProps> = ({ setPage }) => {
   setTimeout(() => {
     setPage(2);
-  }, 2000);
+  }, 6000);
 
   return (
     <div>

@@ -1,10 +1,10 @@
 import { useState } from "react";
-import LoadingPage from "../pages/pageLoading"
-import WelcomePage from "../pages/pageWelcom";
+import LoadingPage from "./pageLoading"
+import WelcomePage from "./pageWelcom";
 // import Boarding from "../../modules/onboarding/boarding";
 
-const Onboarding = () => {
-  const [page, setPage] = useState(2);
+const Shoea = () => {
+  const [page, setPage] = useState(0);
 
   return (
     <>
@@ -15,4 +15,4 @@ const Onboarding = () => {
   );
 };
 
-export default Onboarding;
+export default Shoea;
