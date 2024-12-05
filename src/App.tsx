@@ -1,11 +1,12 @@
 import LoadingPage from "./pages/pageLoading"
-
+import WelcomePage from "./pages/pageWelcom"
 function App() {
 
 
   return (
 <div>
-<LoadingPage/>
+{/* <LoadingPage/> */}
+<WelcomePage/>
 </div>
   )
 }
