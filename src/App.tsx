@@ -1,14 +1,11 @@
-import LoadingPage from "./pages/pageLoading"
-import WelcomePage from "./pages/pageWelcom"
+import Onboarding from "../src/pages/Onboarding";
+
 function App() {
-
-
   return (
-<div>
-{/* <LoadingPage/> */}
-<WelcomePage/>
-</div>
-  )
+    <>
+      <Onboarding />
+    </>
+  );
 }
 
-export default App
+export default App;
