@@ -4,8 +4,6 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        "bg-li":
-          "linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 100%)",
       },
     },
   },

@@ -19,7 +19,7 @@ const Page3: React.FC<ShoeaRight> = ({ setPage }) => {
           </div>
           <button
             onClick={() => setPage(0)}
-            className="bg-black hover:bg-gray-800 rounded-full text-white w-[90%] py-3 fixed bottom-14 left-[4%]"
+            className="bg-black hover:bg-gray-800 rounded-full text-white w-[90%] py-3 fixed bottom-14 left-[5%]"
           >
             Get Started
           </button>

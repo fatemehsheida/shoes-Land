@@ -4,12 +4,12 @@ interface WelcomePageProps {
 }
 
 const WelcomePage: React.FC<WelcomePageProps> = ({ setPage }) => {
-  // setTimeout(() => {
-  //   setPage(2);
-  // }, 3000);
+  setTimeout(() => {
+    setPage(2);
+  }, 3000);
 
   return (
-    <div>
+    <div className="">
       <BackgroundWelcome />
     </div>
   );
