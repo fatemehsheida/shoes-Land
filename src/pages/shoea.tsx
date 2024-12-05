@@ -1,7 +1,7 @@
 import { useState } from "react";
 import LoadingPage from "./pageLoading"
 import WelcomePage from "./pageWelcom";
-// import Boarding from "../../modules/onboarding/boarding";
+import Onboarding from "../pages/Onboarding";
 
 const Shoea = () => {
   const [page, setPage] = useState(0);
@@ -10,7 +10,7 @@ const Shoea = () => {
     <>
       {page === 0 && <LoadingPage setPage={setPage} />}
       {page === 1 && <WelcomePage setPage={setPage} />}
-      {/* {page === 2 && <Boarding />} */}
+      {page === 2 && <Onboarding />}
     </>
   );
 };
