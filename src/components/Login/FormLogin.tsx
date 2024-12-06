@@ -1,24 +1,48 @@
+import { useForm } from "react-hook-form";
+import { FormData } from "../type/FormData";
+import FormField from "../Login/FormFild";
+
 export default function FormLogin() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm<FormData>();
+
+  const onSubmit = async (data: FormData) => {
+    console.log("SUCCESS", data);
+  };
+
   return (
     <div>
-      <form action="#">
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <input type="text" name="Email" id="Email" placeholder="Email" />
+          <FormField
+            type="email"
+            placeholder="Email"
+            name="email"
+            register={register}
+            error={errors.email}
+          />{" "}
         </div>
         <div>
-          <input
+          <FormField
             type="password"
-            name="password"
-            id="password"
             placeholder="Password"
+            name="password"
+            register={register}
+            error={errors.password}
           />
         </div>
         <div>
-            <input type="checkbox" name="Remember" id="Remember" />
-            <label htmlFor="Remember">Remember me</label>
+          <input type="checkbox" name="Remember" id="Remember" />
+          <label htmlFor="Remember">Remember me</label>
         </div>
         <div>
-            <button type="submit" className="border-4">Sign In</button>
+          <button type="submit" className="border-4">
+            Sign In
+          </button>
         </div>
       </form>
     </div>
