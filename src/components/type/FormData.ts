@@ -1,6 +1,7 @@
 import { FieldError, UseFormRegister } from "react-hook-form";
 
 export type FormData = {
+  username: string;
   email: string;
   password: string;
 };
@@ -14,4 +15,4 @@ export type FormFieldProps = {
   valueAsNumber?: boolean;
 };
 
-export type ValidFieldNames = "email" | "password";
+export type ValidFieldNames = "username" | "email" | "password";
