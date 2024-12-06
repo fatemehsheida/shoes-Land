@@ -13,13 +13,16 @@ const Page3: React.FC<ShoeaRight> = ({ setPage }) => {
         </p>
         <div className="felx flex-col">
           <div className=" flex gap-2 absolute bottom-32 left-[40%]">
+
             <div className="w-8 h-1 bg-black opacity-50"></div>
             <div className="w-8 h-1 bg-black opacity-50"></div>
             <div className="w-8 h-1 bg-black"></div>
           </div>
           <button
             onClick={() => setPage(0)}
+
             className="bg-black hover:bg-gray-800 rounded-full text-white w-[90%] py-3 fixed bottom-8 left-[5%]"
+
           >
             Get Started
           </button>

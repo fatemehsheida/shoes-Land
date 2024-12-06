@@ -1,7 +1,8 @@
 import { useState } from "react";
 import LoadingPage from "./pageLoading"
 import WelcomePage from "./pageWelcom";
-import Onboarding from "../pages/onboarding";
+import Onboarding from "../pages/Onboarding";
+
 
 const Shoea = () => {
   const [page, setPage] = useState(0);
