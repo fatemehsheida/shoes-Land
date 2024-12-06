@@ -1,7 +1,7 @@
 
 
 
-import FormLogin from "./components/Login/FormLogin"
+import Login from "./pages/Login/login"
 import Shoea from "./pages/shoea";
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
     //   <Shoea />
     // </div>
     <div>
-    <FormLogin/>
+    <Login/>
     </div>
 
   );
