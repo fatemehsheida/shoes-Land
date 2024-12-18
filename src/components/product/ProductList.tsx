@@ -1,35 +1,63 @@
 import { ProductProps } from "./ProductCard";
 import ProductCard from "./ProductCard";
-import React from "react";
+import React, { useState, createContext, useEffect, useReducer } from "react";
+interface FilterState {
+  search: string;
+  brand: string;
+}
+// export const UserContext = createContext("");
+function filterReducer(state: FilterState, action: FilterAction) {
+  switch (action.type) {
+    case "search":
+      return { ...state, search: action.value };
+    case "brand":
+      return { ...state, brand: action.value };
+  }
+}
+
+type FilterAction = { type: "search" | "brand"; value: string };
 interface ProductListProps {
   products: ProductProps[];
   productSet: React.Dispatch<React.SetStateAction<ProductProps[]>>;
 }
 function ProductList({ products, productSet }: ProductListProps) {
-  const [brand, setBrand] = React.useState<string[]>([]);
+  let brands: string[] = [];
   for (let i of products) {
-    if (!brand.includes(i.brand)) {
-      setBrand([...brand, i.brand]);
+    if (!brands.includes(i.brand)) {
+      brands = [...brands, i.brand];
     }
   }
-  function handleBrandFiltering(brand: string) {
-    productSet(products.filter((product) => product.brand == brand));
-  }
-  console.log(brand);
+  const [filter, dispatch] = useReducer(filterReducer, {
+    search: "",
+    brand: "",
+  });
+  const filteredProducts = products.filter((product) => {
+    return (
+      (product.brand == filter.brand || filter.brand == "") &&
+      product.title.includes(filter.search)
+    );
+  });
+  console.log(filteredProducts);
 
   return (
-    <div className="flex h-screen">
-      {brand.map((item) => {
+    <div className="flex h-screen" key={11}>
+      <Search
+        setSearch={(value: string) => {
+          dispatch({ type: "search", value });
+        }}
+      />
+      {brands.map((item) => {
         return (
           <button
+            key={item}
             className="p-3 bg-red-600"
-            onClick={() => handleBrandFiltering(item)}
+            onClick={() => dispatch({ type: "brand", value: item })}
           >
             {item}
           </button>
         );
       })}
-      {products.map((item: ProductProps) => (
+      {filteredProducts.map((item: ProductProps) => (
         <ProductCard {...item} />
       ))}
     </div>
