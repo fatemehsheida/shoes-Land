@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
-import { ProductProps } from "./ProductCard";
-import axios from "axios";
-import { useParams } from "react-router-dom";
-interface ProductDetailParams {
-  id: string | number;
-}
-export function ProductDetail<ProductDetailParams>() {
+import { useContext } from "react";
+import { ApiContext } from "../base/Api";
+
+export function ProductDetail() {
+  const apiContext = useContext(ApiContext);
   const { id } = useParams();
-  const prodcut = data.find((product) => product.id == Number(id));
+  let prodcut;
+  if (apiContext) {
+    prodcut = apiContext.data.find((product) => product.id == Number(id));
+  }
+
   return <p>{prodcut?.title}</p>;
 }
