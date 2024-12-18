@@ -1,11 +1,14 @@
-import Shoea from "./pages/shoea";
+import "./App.css";
+import { useEffect } from "react";
+import Onboarding from "./pages/Onboarding";
+import Home from "./pages/Home";
 
 function App() {
+  return <Onboarding />;
   return (
-    <div className="overflow-hidden">
-      <Shoea />
-    </div>
-  );
+  // <Onboarding />;
+    <Home />
+  )
 }
 
 export default App;
