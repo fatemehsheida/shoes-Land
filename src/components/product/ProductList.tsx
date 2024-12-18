@@ -4,24 +4,39 @@ import React, { useState, createContext, useEffect, useReducer } from "react";
 interface FilterState {
   search: string;
   brand: string;
+  wishList: string;
+  mostPopular: string;
 }
 // export const UserContext = createContext("");
 function filterReducer(state: FilterState, action: FilterAction) {
+  const clone = {
+    search: "",
+    brand: "",
+    wishList: "",
+    mostPopular: "",
+  };
   switch (action.type) {
     case "search":
       return { ...state, search: action.value };
     case "brand":
-      return { ...state, brand: action.value };
+      return { ...clone, brand: action.value };
+    case "wishList":
+      return { ...clone, wishList: action.value };
+    case "mostPopular":
+      return { ...clone, mostPopular: action.value };
   }
 }
 
-type FilterAction = { type: "search" | "brand"; value: string };
+type FilterAction = {
+  type: "search" | "brand" | "wishList" | "mostPopular";
+  value: string;
+};
 interface ProductListProps {
   products: ProductProps[];
   productSet: React.Dispatch<React.SetStateAction<ProductProps[]>>;
+  dispatchCaller: FilterAction;
 }
-function ProductList({ products, productSet }: ProductListProps) {
-  let brands: string[] = [];
+function ProductList({ dispatchCaller, products, productSet }: ProductListProps) {  let brands: string[] = [];
   for (let i of products) {
     if (!brands.includes(i.brand)) {
       brands = [...brands, i.brand];
@@ -30,7 +45,10 @@ function ProductList({ products, productSet }: ProductListProps) {
   const [filter, dispatch] = useReducer(filterReducer, {
     search: "",
     brand: "",
+    wishList: "",
+    mostPopular: "",
   });
+   // dispatch(dispatchCaller);
   const filteredProducts = products.filter((product) => {
     return (
       (product.brand == filter.brand || filter.brand == "") &&
@@ -41,11 +59,11 @@ function ProductList({ products, productSet }: ProductListProps) {
 
   return (
     <div className="flex h-screen" key={11}>
-      <Search
-        setSearch={(value: string) => {
+       {/* <Search
+        testSearch={(value: string) => {
           dispatch({ type: "search", value });
         }}
-      />
+      /> */}
       {brands.map((item, index) => {
         return (
           <button
