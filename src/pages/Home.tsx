@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import ProductList from "../component/product/ProductList";
 import { ProductProps } from "../component/product/ProductCard";
+
 function Home() {
   const [data, setData] = React.useState<ProductProps[]>([]);
   useEffect(() => {
