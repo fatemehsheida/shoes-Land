@@ -48,18 +48,25 @@ function ProductList({ dispatchCaller, products, productSet }: ProductListProps)
     wishList: "",
     mostPopular: "",
   });
+  console.log(dispatchCaller)
    // dispatch(dispatchCaller);
-  const filteredProducts = products.filter((product) => {
-    return (
-      (product.brand == filter.brand || filter.brand == "") &&
-      product.title.includes(filter.search)
-    );
-  });
+   useEffect(()=>{
+    dispatch(dispatchCaller)
+  }, [dispatchCaller])
+console.log(filter)
+
+const filteredProducts = products.filter((product) => {
+  return (
+    (product.brand == filter.brand || filter.brand == "") &&
+    product.title.includes(filter.search) && 
+    // (filter.wishList && user.wishList.includes(product.id))
+  );
+}).sort((a,b)=> filter.mostPopular ? a.order - b.order : 0);
   console.log(filteredProducts);
 
   return (
     <div className="flex h-screen" key={11}>
-       {/* <Search
+      {/* <Search
         testSearch={(value: string) => {
           dispatch({ type: "search", value });
         }}
@@ -81,4 +88,5 @@ function ProductList({ dispatchCaller, products, productSet }: ProductListProps)
     </div>
   );
 }
+
 export default ProductList;
