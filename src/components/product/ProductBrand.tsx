@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function ProductBrand() {
   const apiContext = useContext(ApiContext);
   return (
-    <>
+    <div className="flex flex-wrap w-ful gap-4 ">
       {apiContext &&
         apiContext.Logos.map((logo) => {
           return (
@@ -23,7 +23,7 @@ function ProductBrand() {
             </div>
           );
         })}
-    </>
+    </div>
   );
 }
 export default ProductBrand;
