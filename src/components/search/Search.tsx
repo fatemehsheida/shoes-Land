@@ -7,7 +7,7 @@ function Search() {
   const [search, setSearch] = useState("");
   return (
     <div>
-      <input type="text" onChange={(e) => setSearch(e.target.value)} />
+      <input autoFocus type="text" onChange={(e) => setSearch(e.target.value)} />
       {apiContext && (
         <ProductList
           products={apiContext.data}
