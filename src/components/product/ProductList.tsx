@@ -3,7 +3,7 @@ import { UserProps } from "../base/Interfaces";
 import { ProductProps } from "./ProductCard";
 import ProductCard from "./ProductCard";
 import React, { useContext, useEffect, useReducer, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface FilterState {
   search: string;
@@ -42,12 +42,13 @@ function filterReducer(state: FilterState, action: FilterAction) {
       return { ...clone, wishList: action.value };
     case "mostPopular":
       return { ...clone, mostPopular: action.value };
-      case "home":
-        return { ...clone, home: action.value };
+    case "home":
+      return { ...clone, home: action.value };
   }
 }
 
 function ProductList({ dispatchCaller, products }: ProductListProps) {
+  const navigate = useNavigate();
   const apiContext = useContext(ApiContext);
   const [pageState, setPageState] = useState("");
   let brands: string[] = [];
@@ -77,7 +78,6 @@ function ProductList({ dispatchCaller, products }: ProductListProps) {
     }
   }, [apiContext]);
 
-  
   // dispatch(dispatchCaller);
   useEffect(() => {
     dispatch(dispatchCaller);
@@ -100,7 +100,7 @@ function ProductList({ dispatchCaller, products }: ProductListProps) {
       return (
         (product.brand == filter.brand || filter.brand == "") &&
         product.title.includes(filter.search) &&
-         (loginUser?.wishlist.includes(product.id) || filter.wishList == "")
+        (loginUser?.wishlist.includes(product.id) || filter.wishList == "")
       );
     })
     .sort((a, b) => (filter.mostPopular ? b.order - a.order : 0));
@@ -126,11 +126,30 @@ function ProductList({ dispatchCaller, products }: ProductListProps) {
           dispatch({ type: "search", value });
         }}
       /> */}
-       {(pageState == "home" || pageState == "popular") && (
+      {(pageState == "home" || pageState == "popular") && (
         <>
           <div className=" mostContainer w-full flex flex-col items-center  gap-5 h-1/6">
             <div className="w-full flex flex-row justify-between items-center text-start left-0">
-              <h1 className="font-bold leading-5 text-xl">Most Popular</h1>
+              <div className="font-bold leading-5  flex justify-item-center space-x-1">
+                {pageState == "popular" && (
+                  <svg
+                    onClick={() => navigate(-1)}
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2.5}
+                    stroke="currentColor"
+                    className="size-7 cursor-pointer"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h15"
+                    />
+                  </svg>
+                )}
+                <span className="text-xl">Most Popular</span>
+              </div>
               <Link to="/popular">
                 <h1 className="font-semibold MostPopularpage cursor-pointer leading-5 text-lg hover:text-slate-500">
                   See All
@@ -144,16 +163,16 @@ function ProductList({ dispatchCaller, products }: ProductListProps) {
          [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]
         
         "
-      >
-        <div>
-          <button
-            key={"all"}
-            className="font-bold snap-start leading-5  text-xs h-10 flex 
+          >
+            <div>
+              <button
+                key={"all"}
+                className="font-bold snap-start leading-5  text-xs h-10 flex 
              justify-center items-center px-4 py-1.5 border-2 border-[#343A40]
               rounded-3xl cursor-pointer hover:bg-slate-700 hover:text-white
           
               "
-              onClick={() => dispatch({ type: "brand", value: "" })}
+                onClick={() => dispatch({ type: "brand", value: "" })}
               >
                 All
               </button>
@@ -200,7 +219,7 @@ function ProductList({ dispatchCaller, products }: ProductListProps) {
             </svg>
           </div>
         )}
-          {paginatedProducts.map((item) => (
+        {paginatedProducts.map((item) => (
           <Link to={`/product/${item.id}`}>
             <ProductCard
               {...{
