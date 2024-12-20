@@ -2,13 +2,8 @@ import { Link, Outlet } from "react-router-dom";
 function Header() {
   return (
     <>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-        </ul>
-      </nav>
+            <div className="bg-red-500">footer</div>
+
       <Outlet />
     </>
   );
