@@ -1,14 +1,18 @@
 
 
 
-import FormLogin from "./components/Login/FormLogin"
+import Login from "./pages/Login/login"
 import Shoea from "./pages/shoea";
 
 function App() {
   return (
-    <div className="overflow-hidden">
-      <Shoea />
+    // <div className="overflow-hidden">
+    //   <Shoea />
+    // </div>
+    <div>
+    <Login/>
     </div>
+
   );
 
 }
