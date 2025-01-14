@@ -1,7 +1,4 @@
-import {
-  useFetchProducts,
-  useFetchProductsByBrand,
-} from "../../api/queryClinet";
+import { productHooks } from "../../api/queryClinet";
 import { ApiContext } from "../base/Api";
 import { UserProps } from "../base/Interfaces";
 import { ProductProps } from "./ProductCard";
@@ -84,16 +81,15 @@ function ProductList({ dispatchCaller, products }: ProductListProps) {
     dispatch(dispatchCaller);
   }, [dispatchCaller]);
 
-  
-  console.log(filter)
+  console.log(filter);
   if (filter.brand) {
-    const { data, isLoading, error } = useFetchProductsByBrand(filter.brand)
+    const { data, isLoading, error } = productHooks.useFetchProductsByBrand(filter.brand);
   }
-  const { data, isLoading, error } = useFetchProducts()
+  const { data, isLoading, error } = useFetchProducts();
   if (isLoading) return <div>Loading...</div>;
   if (error instanceof Error) return <div>Error: {error.message}</div>;
-  const filteredProducts = data
-  const totalItems = filteredProducts && filteredProducts.length
+  const filteredProducts = data;
+  const totalItems = filteredProducts && filteredProducts.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * itemsPerPage,
