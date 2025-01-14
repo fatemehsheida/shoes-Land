@@ -1,13 +1,14 @@
-import { useContext, useState } from "react";
-import { useParams } from "react-router-dom";
-import { ApiContext } from "../base/Api";
-import { WishlistIcon } from "../product/Wishlist";
+import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { WishlistIcon } from '../product/Wishlist'
+import { useFetchProductById } from "../../api/queryClinet";
+import { ProductProps } from "./ProductCard";
+
 
 export function ProductDetail() {
   const navigate = useNavigate();
   const userId = window.localStorage.getItem("userId");
   const [count, setCount] = useState(1);
-  const apiContext = useContext(ApiContext);
 
   const colors = [
     "bg-rose-500",
@@ -18,28 +19,29 @@ export function ProductDetail() {
   ];
 
   const { id } = useParams();
-  let prodcut;
-  if (apiContext) {
-    prodcut = apiContext.data.find((product) => product.id == Number(id));
-  }
+  const { data, isLoading, error } = useFetchProductById(Number(id))
+  if (isLoading) return <div>Loading...</div>;
+  if (error instanceof Error) return <div>Error: {error.message}</div>;
+  console.log(data)
+  const product: ProductProps = data
 
   return (
     <div className="w-full h-[90%] relative mb-10">
       {/* images && backward */}
       <div className=" w-full">
         <div>
-          <img src={prodcut?.images} className="h-80 w-full object-cover"></img>
+          <img src={product?.images[0]} className="h-80 w-full object-cover"></img>
         </div>
       </div>
       <div className="px-5 pt-4 w-full">
         <div className=" h-1/4 relative mb-3 after:absolute pb-3 after:w-full after:h-full  after:top-0 after:left-0 after:border-b-2 after:border-b-solid after:border-b-slate-100 after:pointer-events-none">
           <div className="flex flex-row w-full justify-evently">
             <div className="flex flex-col space-y-3 w-full">
-              <h1 className="font-bold text-3xl w-full ">{prodcut?.title}</h1>
+              <h1 className="font-bold text-3xl w-full ">{product?.name}</h1>
               <div className="flex flex-row space-x-5 w-full justify-start">
                 <div className="w-1/4  bg-slate-200 rounded-lg flex justify-center items-center px-1 py-1">
                   <p className="font-bold text-xs text-slate-700">
-                    {prodcut?.order} sold
+                    {product?.order} sold
                   </p>
                 </div>
                 <div className="pl-3 flex flex-row justify-center items-center gap-2">
@@ -50,7 +52,7 @@ export function ProductDetail() {
                     />
                   )}
                   <p className="font-semibold text-[14px] text-slate-700">
-                    4.3(5,389 reviews)
+                  {product.rating}({product.sold_quantity})
                   </p>
                 </div>
               </div>
@@ -58,7 +60,7 @@ export function ProductDetail() {
             <div className="heart w-1/12 hover:text-pink-600 active:text-pink-600 flex flex-row justify-start items-center h-2/3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                fill="none"
+                fill="black"
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
@@ -87,7 +89,7 @@ export function ProductDetail() {
             <div className="flex flex-col space-y-2 justify-center">
               <h3 className="font-bold">Size</h3>
               <ul className="flex space-x-1">
-                {prodcut?.size.map((sizes, index) => (
+                {product?.sizes.map((sizes, index) => (
                   <li
                     className="py-2 px-2 leading-none font-semibold text-xs rounded-full inline-flex border-2 border-slate-800 transition-all duration-300 hover:bg-slate-300 hover:border-slate-500"
                     key={index}
@@ -100,7 +102,7 @@ export function ProductDetail() {
             <div className="flex flex-col space-y-2 justify-center ">
               <h3 className="font-bold">Color</h3>
               <ul className="flex space-x-1">
-                {prodcut?.color.map((colors, index) => (
+                {product?.colors.map((colors, index) => (
                   <li
                     className={`bg-${colors}-500 py-4 px-4 inline-flex rounded-full cursor-pointer transition-all duration-300 hover:bg-slate-400`}
                     key={index}
@@ -160,7 +162,7 @@ export function ProductDetail() {
           <div className="flex flex-col justify-center w-1/3 h-full">
             <h5 className="font-bold text-slate-500 text-xs">Total price</h5>
             <h5 className="font-bold text-xl">
-              ${prodcut?.price && prodcut?.price * count}.00
+              ${product?.price && product?.price * count}.00
             </h5>
           </div>
           <div className="bg-black w-2/3 h-4/5 rounded-[40px] flex justify-center items-center shadow-md shadow-slate-500/50 cursor-pointer">
@@ -187,7 +189,7 @@ export function ProductDetail() {
         <div>
           <div>
             <h3>Total price</h3>
-            <h2>${(prodcut?.price || 0) * count}.00</h2>
+            <h2>${(product?.price || 0) * count}.00</h2>
           </div>
           <div className="cursor-pointer">
             <svg
