@@ -35,6 +35,35 @@ const ProductCard = ({
     <div key={id} className="flex flex-row flex-wrap ">
       <div className="w-full justify-center items-center gap-4">
         <div className="cardContainer w-40 h-48  flex flex-col justify-center items-start">
+          {page == "wishlist" || page == "search" ? (
+            <div className="imageContainer relative w-full h-44 rounded-3xl p-5 bg-[#ECEFF1] flex justify-center items-center cursor-pointer hover:bg-slate-200">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="white"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="white"
+                className="transition-all duration-300 hover:bg-red-400 size-9 p-2 absolute top-5 right-5 bg-slate-800 rounded-full "
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+                />
+              </svg>
+              <img src={images} className="w-32 h-32" />
+            </div>
+          ) : (
+            <div
+              className="imageContainer w-full h-44 rounded-3xl p-4 bg-[#ECEFF1] 
+          flex justify-center items-center cursor-pointer hover:bg-slate-200"
+            >
+              <img src={images} className="w-36 h-36" />
+            </div>
+          )}
+        </div>
+        <div className="detailContainer flex flex-col justify-center items-start gap-1">
+          <h1 className="productName font-bold text-xl leading-6">{title}</h1>
           {(page == "wishlist" || page == "search") && (
             <div className="w-full h-1/3  flex flex-row justify-start items-center">
               <div className="flex flex-row justify-center items-center gap-2">
@@ -67,7 +96,7 @@ const ProductCard = ({
               )}
             </div>
           )}
-          <span className="productPrice font-semibold text-base leading-5">
+          <span className="productPrice font-semibold text-sm leading-5">
             ${price}.00
           </span>
         </div>
