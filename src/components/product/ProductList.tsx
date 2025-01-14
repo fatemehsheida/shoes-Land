@@ -6,10 +6,11 @@ import React, { useContext, useEffect, useReducer, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 interface FilterState {
-  search: string;
-  brand: string;
-  wishList: string;
-  mostPopular: string;
+  search?: string;
+  brand?: string;
+  wishList?: string;
+  mostPopular?: string;
+  home?: string;
 }
 
 export type FilterAction = {
@@ -35,22 +36,21 @@ function filterReducer(state: FilterState, action: FilterAction) {
   };
   switch (action.type) {
     case "search":
-      return { ...clone, search: action.value };
+      return { search: action.value };
     case "brand":
-      return { ...clone, brand: action.value };
+      return { brand: action.value };
     case "wishList":
-      return { ...clone, wishList: action.value };
+      return { wishList: action.value };
     case "mostPopular":
-      return { ...clone, mostPopular: action.value };
+      return { mostPopular: action.value };
     case "home":
-      return { ...clone, home: action.value };
+      return { home: action.value };
   }
 }
 
 function ProductList({ dispatchCaller, products }: ProductListProps) {
   const navigate = useNavigate();
   const apiContext = useContext(ApiContext);
-  const [pageState, setPageState] = useState("");
   let brands: string[] = [];
   if (apiContext) {
     for (const i of apiContext.data) {
@@ -60,12 +60,9 @@ function ProductList({ dispatchCaller, products }: ProductListProps) {
     }
   }
 
-  const [filter, dispatch] = useReducer(filterReducer, {
-    search: "",
-    brand: "",
-    wishList: "",
-    mostPopular: "",
-  });
+  const [filter, dispatch] = useReducer<
+    (arg0: FilterState, arg1: FilterAction) => FilterState
+  >(filterReducer, {});
   const [loginUser, setLoginUser] = useState<UserProps>();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
@@ -83,34 +80,17 @@ function ProductList({ dispatchCaller, products }: ProductListProps) {
     dispatch(dispatchCaller);
   }, [dispatchCaller]);
 
-  useEffect(() => {
-    if (filter.search) {
-      setPageState("search");
-    } else if (filter.wishList) {
-      setPageState("wishlist");
-    } else if (filter.home || filter.brand) {
-      setPageState("home");
-    } else if (filter.mostPopular) {
-      setPageState("popular");
-    }
-  }, [filter]);
+ 
   const filteredProducts = products
     .filter((product) => {
-      console.log(
-        "iswishlit",
-        loginUser?.wishlist.includes(Number(product.id)) ||
-          filter.wishList == "",
-        filter.wishList,
-        loginUser?.wishlist
-      );
+      console.log((filter?.brand))
       return (
-        (product.brand == filter.brand || filter.brand == "") &&
-        product.title.includes(filter.search) &&
-        (loginUser?.wishlist.includes(Number(product.id)) ||
-          filter.wishList == "")
+        (product.brand == filter?.brand || filter?.brand == "") &&
+        (filter?.search && product.title.includes(filter?.search)) &&
+        (loginUser?.wishlist.includes(Number(product.id)) || filter?.wishList == "")
       );
     })
-    .sort((a, b) => (filter.mostPopular ? b.order - a.order : 0));
+    .sort((a, b) => (filter?.mostPopular ? b.order - a.order : 0));
   const totalItems = filteredProducts.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const paginatedProducts = filteredProducts.slice(
@@ -128,12 +108,8 @@ function ProductList({ dispatchCaller, products }: ProductListProps) {
 
   return (
     <div className="flex space-y-3 w-full flex-col" key={11}>
-      {/* <Search
-        testSearch={(value: string) => {
-          dispatch({ type: "search", value });
-        }}
-      /> */}
-      {(pageState == "home" || pageState == "popular") && (
+      {/*
+ {(pageState == "home" || pageState == "popular") && (
         <>
           <div className=" mostContainer w-full flex flex-col items-center  gap-5 h-1/6">
             <div className="w-full flex flex-row justify-between items-center text-start left-0">
@@ -203,6 +179,7 @@ function ProductList({ dispatchCaller, products }: ProductListProps) {
           </div>
         </>
       )}
+         */}
       <div className="w-full flex flex-wrap  justify-center items-center gap-4">
         {paginatedProducts.length == 0 && (
           <div className="flex flex-col items-center justify-center mt-10">
@@ -228,7 +205,7 @@ function ProductList({ dispatchCaller, products }: ProductListProps) {
         )}
         {paginatedProducts.map((item) => (
           <Link key={item.id} to={`/product/${item.id}`}>
-            <ProductCard {...item} page={pageState} />
+            <ProductCard {...item} />
           </Link>
         ))}
       </div>
