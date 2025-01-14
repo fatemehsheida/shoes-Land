@@ -1,13 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
-import { WishlistIcon } from '../product/Wishlist'
-import { useFetchProductById } from "../../api/queryClinet";
+import { WishlistIcon } from "../product/Wishlist";
 import { ProductProps } from "./ProductCard";
-
+import { productHooks } from "../../api/queryClinet";
 
 export function ProductDetail() {
   const navigate = useNavigate();
-  const userId = window.localStorage.getItem("userId");
   const [count, setCount] = useState(1);
 
   const colors = [
@@ -19,18 +17,23 @@ export function ProductDetail() {
   ];
 
   const { id } = useParams();
-  const { data, isLoading, error } = useFetchProductById(Number(id))
+  const { data, isLoading, error } = productHooks.useFetchProductById(
+    Number(id)
+  );
   if (isLoading) return <div>Loading...</div>;
   if (error instanceof Error) return <div>Error: {error.message}</div>;
-  console.log(data)
-  const product: ProductProps = data
+  console.log(data);
+  const product: ProductProps = data;
 
   return (
     <div className="w-full h-[90%] relative mb-10">
       {/* images && backward */}
       <div className=" w-full">
         <div>
-          <img src={product?.images[0]} className="h-80 w-full object-cover"></img>
+          <img
+            src={product?.images[0]}
+            className="h-80 w-full object-cover"
+          ></img>
         </div>
       </div>
       <div className="px-5 pt-4 w-full">
@@ -45,14 +48,12 @@ export function ProductDetail() {
                   </p>
                 </div>
                 <div className="pl-3 flex flex-row justify-center items-center gap-2">
-                  {userId && (
-                    <WishlistIcon
-                      productId={Number(id)}
-                      userId={Number(userId)}
-                    />
-                  )}
+                  <WishlistIcon
+                    productId={Number(id)}
+                    isInWishlist={product.isFavorite}
+                  />
                   <p className="font-semibold text-[14px] text-slate-700">
-                  {product.rating}({product.sold_quantity})
+                    {product.rating}({product.sold_quantity})
                   </p>
                 </div>
               </div>
