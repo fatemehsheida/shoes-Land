@@ -74,7 +74,7 @@ function ProductList({ dispatchCaller, products }: ProductListProps) {
     const userId = window.localStorage.getItem("userId");
     console.log(userId);
     if (userId && apiContext) {
-      setLoginUser(apiContext.users.find(({ id }) => Number(userId) === id));
+      setLoginUser(apiContext.users.find(({ id }) => Number(userId) == id));
     }
   }, [apiContext]);
 
@@ -96,11 +96,18 @@ function ProductList({ dispatchCaller, products }: ProductListProps) {
   }, [filter]);
   const filteredProducts = products
     .filter((product) => {
-      console.log(typeof product.id);
+      console.log(
+        "iswishlit",
+        loginUser?.wishlist.includes(Number(product.id)) ||
+          filter.wishList == "",
+        filter.wishList,
+        loginUser?.wishlist
+      );
       return (
         (product.brand == filter.brand || filter.brand == "") &&
         product.title.includes(filter.search) &&
-        (loginUser?.wishlist.includes(product.id) || filter.wishList == "")
+        (loginUser?.wishlist.includes(Number(product.id)) ||
+          filter.wishList == "")
       );
     })
     .sort((a, b) => (filter.mostPopular ? b.order - a.order : 0));
@@ -241,7 +248,7 @@ function ProductList({ dispatchCaller, products }: ProductListProps) {
         <div className="flex justify-center items-center pb-2 pt-2 mb-[10rem]">
           <button
             key={page}
-            className={`px-2 py-1 mx-1 border rounded-full  text-xs${
+            className={`px-2 py-1 mx-1 border rounded-full text-xs ${
               currentPage === 1
                 ? "text-gray-300 cursor-not-allowed "
                 : "text-gray-600 hover:bg-blue-100 font-bold"
@@ -265,7 +272,7 @@ function ProductList({ dispatchCaller, products }: ProductListProps) {
             </button>
           ))}
           <button
-            className={`px-2 py-1 mx-1 border rounded-full  text-xs ${
+            className={`px-2 py-1 mx-1 border rounded-full text-xs ${
               currentPage === totalPages || totalPages === 0
                 ? "text-gray-300 cursor-not-allowed "
                 : "text-gray-600 hover:bg-blue-100 font-bold"
