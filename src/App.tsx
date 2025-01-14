@@ -9,6 +9,7 @@ import MostPopular from "./pages/MostPopular";
 import WishList from "./pages/WishList";
 import Brand from "./pages/Brand";
 import Auth from "./pages/auth";
+<<<<<<< HEAD
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Cart from "./pages/Cart";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -22,9 +23,15 @@ import { persistor, store } from "./config/store";
 import Orders from "./pages/Orders";
 import { PersistGate } from "redux-persist/integration/react";
 import ChooseShipping from "./component/checkout/ChooseShipping";
+=======
+import SignIn from "./pages/SignIn";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+>>>>>>> signin
 
+const queryClient = new QueryClient();
 function App() {
   return (
+<<<<<<< HEAD
     <Provider store={store}>
       <PersistGate loading={<div>loading...</div>} persistor={persistor}>
         <QueryClientProvider client={queryClient}>
@@ -51,6 +58,25 @@ function App() {
         </QueryClientProvider>
       </PersistGate>
     </Provider>
+=======
+    // <Onboarding />;
+    <Api>
+      <QueryClientProvider client={queryClient}>
+        <Routes>
+          <Route path="/" element={<Header />}>
+            <Route index element={<Home />} />
+            <Route path="search" element={<Search />} />
+            <Route path="popular" element={<MostPopular />} />
+            <Route path="wishlist" element={<WishList />} />
+            <Route path="auth" element={<Auth />} />
+            <Route path="signin" element={<SignIn />} />
+            <Route path="brand/:brand" element={<Brand />} />
+            <Route path="product/:id" element={<ProductDetail />} />
+          </Route>
+        </Routes>
+      </QueryClientProvider>
+    </Api>
+>>>>>>> signin
   );
 }
 
